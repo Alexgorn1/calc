@@ -9,21 +9,24 @@ import (
 )
 
 var romanMap = []struct {
-	decVall int
-	symb    string
+	decVal int
+	symbol string
 }{
-	{10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}, {100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
+	{1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
+	{100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
+	{10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"},
 }
 
-func RomanIterative(num int) string {
-	result := ""
+func decimalToRoman(num int) string {
+	if num == 0 {
+		return ""
+	}
 	for _, pair := range romanMap {
-		for num >= pair.decVall {
-			result += pair.symb
-			num -= pair.decVall
+		if num >= pair.decVal {
+			return pair.symbol + decimalToRoman(num-pair.decVal)
 		}
 	}
-	return result
+	return ""
 }
 
 func implContains(sl []string, name string) bool {
@@ -126,7 +129,7 @@ func main() {
 	}
 
 	if c1 == 2 {
-		fmt.Println(RomanIterative(answer))
+		fmt.Println(decimalToRoman(answer))
 	} else {
 		fmt.Println(answer)
 	}
